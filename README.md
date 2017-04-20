@@ -2,7 +2,9 @@
 
 [![Software License][ico-license]](LICENSE.md)
 
-An activitystreams 2.0 php package
+** This package is in active development, this is not a complete implementation of ActivityStreams 2.0 **
+
+An activitystreams 2.0 php package.
 
 ## Install
 
@@ -13,6 +15,21 @@ $ composer require dansup/php-activitystreams
 ```
 
 ## Usage
+``` php
+use Dansup\ActivityStreams\ServerFactory;
+
+$server = ServerFactory::create(['version' => '2.0']);
+
+$item = $server->object();
+
+$item->setType('Note')
+$item->setId('http://example.org/note/123');
+$item->setName('Our Weather Is Fine');
+$item->setContent('I feel that the weather is appropriate to our season and location.');
+
+echo $item->get();
+```
+
 
 ## Change log
 
