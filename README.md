@@ -3,6 +3,9 @@
 > A PHP implementation of the Activity Streams 2.0 specification
 
 [![Software License][ico-license]](LICENSE.md)
+[![Latest Version on Packagist][ico-version]][link-packagist]
+[![Total Downloads][ico-downloads]][link-downloads]
+
 
 **This package is in active development, this is not a complete implementation of ActivityStreams 2.0**
 
@@ -38,7 +41,7 @@ $item->addField('url', 'http://example.org/permalink/123');
 echo $item->get();
 
 ```
-
+### Result:
 ``` json
 {
  "@context": "https:\/\/www.w3.org\/ns\/activitystreams",
@@ -98,3 +101,4 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [link-downloads]: https://packagist.org/packages/dansup/php-activitystreams
 [link-author]: https://github.com/dansup
 [link-contributors]: ../../contributors
+
