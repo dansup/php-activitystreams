@@ -1,58 +1,69 @@
 <?php
 
 namespace Dansup\ActivityStreams;
+use Dansup\ActivityStreams\Model\{Activity,
+  Actory,
+  Collection,
+  IntransitiveActivity,
+  Link,
+  Object as ObjectType};
 
 class ServerFactory {
-  
 
     /**
-     * Configuration parameters.
+     * Optional ActivityStreams Type.
      * @var array
      */
-    protected $config;
+    protected $activityType;
+
     /**
      * Create ServerFactory instance.
      * @param array $config Configuration parameters.
      */
-    public function __construct(array $config = [])
+    public function __construct(string $activityType = 'factory')
     {
-        $this->config = $config;
+        $this->activityType = $activityType;
     }
 
     /**
      * Get configured server.
-     * @return Server Configured Glide server.
+     * @return Server Configured AS server.
      */
     public function getServer()
     {
-        $server = new Server(
-            $this->getVersion()
-        );
-        $server->setVersion($this->getVersion());
-        return $server;
-    }
-
-    /**
-     * Get activity streams version.
-     * @return string
-     */
-    public function getVersion()
-    {
-        if (!isset($this->config['version'])) {
-            throw new \InvalidArgumentException('A "version" must be set.');
+        $type = $this->detectTypeBuilder($this->activityType);
+        
+        if($type !== $this->activityType) {
+          return new $type;
+        } else {
+          $server = new Server($type);
+          return $server;
         }
-
-        return $this->config['version'];
     }
 
+    public function detectTypeBuilder()
+    {
+      switch ($this->activityType) {
+        case 'object':
+            $res = ObjectType::class;
+          break;
+        
+        default:
+            $this->activityType = 'factory';
+            $res = $this->activityType;
+          break;
+      }
+      return $res;
+    }
 
     /**
      * Create configured server.
      * @param  array  $config Configuration parameters.
      * @return Server Configured server.
      */
-    public static function create(array $config = [])
+    public static function create(string $activityType = 'factory')
     {
-        return (new self($config))->getServer();
+        return (new self($activityType))->getServer();
     }
+    
 }

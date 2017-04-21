@@ -18,6 +18,8 @@ class Server {
      */
     protected $version;
 
+    protected $activityType;
+
     /**
      * Base URL.
      * @var string
@@ -28,9 +30,20 @@ class Server {
     /**
      * Create Server instance.
      */
-    public function __construct($version)
+    public function __construct($activityType = 'factory')
     {
-        $this->setVersion($version);
+        $this->setActivityType($activityType);
+    }
+
+    public function setActivityType($activityType)
+    {
+      $this->activityType = $activityType;
+      return $this;
+    }
+
+    public function getActivityType()
+    {
+      return $this->activityType;
     }
 
     public function setVersion($version)
@@ -57,7 +70,5 @@ class Server {
     {
       return new ObjectType;
     }
-
-
 
 }
