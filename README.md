@@ -1,10 +1,12 @@
 # php-activitystreams
 
+> A PHP implementation of the Activity Streams 2.0 specification
+
 [![Software License][ico-license]](LICENSE.md)
 
-** This package is in active development, this is not a complete implementation of ActivityStreams 2.0 **
+**This package is in active development, this is not a complete implementation of ActivityStreams 2.0**
 
-An activitystreams 2.0 php package.
+A modern AS2 php library. At the moment, only the [object model type](https://www.w3.org/TR/activitystreams-core/#object) is partially implemented. I look forward to getting this feature complete by the end of summer 2017.
 
 ## Install
 
@@ -15,19 +17,43 @@ $ composer require dansup/php-activitystreams
 ```
 
 ## Usage
+> Lets create a [basic object model](https://www.w3.org/TR/activitystreams-core/#object) and echo the response to a json encoded string.
+
 ``` php
 use Dansup\ActivityStreams\ServerFactory;
 
-$server = ServerFactory::create(['version' => '2.0']);
+$item = ServerFactory::create('object');
 
-$item = $server->object();
-
-$item->setType('Note')
-$item->setId('http://example.org/note/123');
-$item->setName('Our Weather Is Fine');
-$item->setContent('I feel that the weather is appropriate to our season and location.');
+$item->type('Note')
+$item->id('http://example.org/note/123');
+$item->name('Our Weather Is Fine');
+$item->content('I feel that the weather is appropriate to our season and location.');
+$item->attributedTo([
+  'id' => 'http://joe.website.example/',
+  'type' => 'Person',
+  'name' => 'Joe Smith'
+]);
+$item->addField('url', 'http://example.org/permalink/123');
 
 echo $item->get();
+
+```
+
+``` json
+{
+ "@context": "https:\/\/www.w3.org\/ns\/activitystreams",
+ "type": "Note",
+ "id": "http:\/\/example.org\/note\/123",
+ "name": "Our Weather Is Fine",
+ "attributedTo": {
+     "id": "http:\/\/joe.website.example\/",
+     "type": "Person",
+     "name": "Joe Smith"
+ },
+ "content": "I feel that the weather is appropriate to our season and location.",
+ "published": "2017-04-21T01:31:20+00:00",
+ "url": "http:\/\/example.org\/permalink\/123"
+}
 ```
 
 
